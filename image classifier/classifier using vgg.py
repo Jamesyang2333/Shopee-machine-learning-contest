@@ -114,7 +114,7 @@ def train_top_model():
     # model.add(Dropout(0.5))
     # model.add(Dense(4096, activation='relu'))
     # model.add(Dropout(0.5))
-    model.add(Dense(512), activation = "relu")
+    model.add(Dense(512, activation = "relu"))
     model.add(Dropout(0.5))
     model.add(Dense(18, activation='softmax'))
 
@@ -130,5 +130,4 @@ def train_top_model():
     model.save_weights(top_model_weights_path)
 
 
-save_bottlebeck_features()
 train_top_model()
