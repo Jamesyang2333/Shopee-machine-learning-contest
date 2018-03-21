@@ -78,7 +78,7 @@ for imagepath in imagepaths:
 
 printlist = [[str(i + 1), str(answerlist[i])] for i in range(16111)]
 
-with open('result10.csv', 'w', newline='') as csvfile:
+with open('result11.csv', 'w', newline='') as csvfile:
     spamwriter = csv.writer(csvfile)
     spamwriter.writerow(["id", "category"])
     spamwriter.writerows(printlist)
