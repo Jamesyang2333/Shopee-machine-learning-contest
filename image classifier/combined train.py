@@ -36,16 +36,18 @@ data/
 ```
 '''
 
+from keras import applications
 from keras.preprocessing.image import ImageDataGenerator
+from keras import optimizers
 from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D
-from keras.layers import Activation, Dropout, Flatten, Dense
-from keras.optimizers import Adam
-from keras import backend as K
+from keras.layers import Dropout, Flatten, Dense
+import vgg
 
-INIT_LR = 1E-3
+# path to the model weights files.
+weights_path = 'vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5'
+top_model_weights_path = 'bottleneck_fc_model3.h5'
 # dimensions of our images.
-img_width, img_height = 112, 112
+img_width, img_height = 224, 224
 
 train_data_dir = 'data/Training Images'
 validation_data_dir = 'data/Training Images copy'
@@ -54,70 +56,61 @@ nb_validation_samples = 4317
 epochs = 50
 batch_size = 32
 
-if K.image_data_format() == 'channels_first':
-    input_shape = (3, img_width, img_height)
-else:
-    input_shape = (img_width, img_height, 3)
+# build the VGG16 network
+model = vgg.VGG_16()
+model.load_weights("vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5")
+print('Model loaded.')
 
-model = Sequential()
-model.add(Conv2D(32, (3, 3), padding="same", input_shape=input_shape))
-model.add(Activation('relu'))
-model.add(Conv2D(32, (3, 3), padding="same", input_shape=input_shape))
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2), strides = (2, 2)))
+# build a classifier model to put on top of the convolutional model
+top_model = Sequential()
+top_model.add(Flatten(input_shape=(7, 7, 512)))
+top_model.add(Dense(2048, activation='relu'))
+top_model.add(Dropout(0.7))
+top_model.add(Dense(2048, activation='relu'))
+top_model.add(Dropout(0.8))
+top_model.add(Dense(18, activation='softmax'))
+top_model.load_weights("bottleneck_fc_model3.h5")
 
-model.add(Conv2D(64, (3, 3), padding="same"))
-model.add(Activation('relu'))
-model.add(Conv2D(64, (3, 3), padding="same"))
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2), strides = (2, 2)))
+model.add(top_model)
 
-model.add(Conv2D(128, (3, 3), padding="same"))
-model.add(Activation('relu'))
-model.add(Conv2D(128, (3, 3), padding="same"))
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2), strides = (2, 2)))
+# set the first 25 layers (up to the last conv block)
+# to non-trainable (weights will not be updated)
+for layer in model.layers[:25]:
+    layer.trainable = False
 
-model.add(Flatten())
-model.add(Dense(1024))
-model.add(Activation('relu'))
-model.add(Dropout(0.5))
-model.add(Dense(18))
-model.add(Activation('softmax'))
+# compile the model with a SGD/momentum optimizer
+# and a very slow learning rate.
+model.compile(loss='categorical_crossentropy',
+              optimizer=optimizers.SGD(lr=1e-4, momentum=0.9),
+              metrics=['accuracy'])
 
-opt = Adam(lr=INIT_LR, decay=INIT_LR / epochs)
-model.compile(loss="categorical_crossentropy", optimizer=opt,
-	metrics=["accuracy"])
-
-
-# this is the augmentation configuration we will use for training
+# prepare data augmentation configuration
 train_datagen = ImageDataGenerator(
     rescale=1. / 255,
     shear_range=0.2,
     zoom_range=0.2,
     horizontal_flip=True)
 
-# this is the augmentation configuration we will use for testing:
-# only rescaling
 test_datagen = ImageDataGenerator(rescale=1. / 255)
 
 train_generator = train_datagen.flow_from_directory(
     train_data_dir,
-    target_size=(img_width, img_height),
+    target_size=(img_height, img_width),
     batch_size=batch_size,
-    class_mode='categorical')
-print(train_generator.class_indices)
+    class_mode='binary')
+
 validation_generator = test_datagen.flow_from_directory(
     validation_data_dir,
-    target_size=(img_width, img_height),
+    target_size=(img_height, img_width),
     batch_size=batch_size,
-    class_mode='categorical')
+    class_mode='binary')
 
+# fine-tune the model
 model.fit_generator(
     train_generator,
-    steps_per_epoch=nb_train_samples // batch_size,
+    samples_per_epoch=nb_train_samples,
     epochs=epochs,
     validation_data=validation_generator,
-    validation_steps=nb_validation_samples // batch_size)
+    nb_val_samples=nb_validation_samples)
 
-model.save('cloth6.model')
+model.save("model1.model")

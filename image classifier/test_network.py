@@ -37,7 +37,7 @@ input_shape = (img_width, img_height, 3)
 model = vgg.VGG_16()
 model.load_weights("vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5")
 print('Model loaded.')
-print(model.summary())
+# print(model.summary())
 
 # build a classifier model to put on top of the convolutional model
 top_model = Sequential()
@@ -51,7 +51,7 @@ top_model.load_weights("bottleneck_fc_model3.h5")
 
 model.add(top_model)
 
-print(model.summary())
+# print(model.summary())
 
 answerlist = [0 for i in range(16111)]
 imagepaths = list(paths.list_images('Test'))
