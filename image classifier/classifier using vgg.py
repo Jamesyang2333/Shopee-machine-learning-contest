@@ -45,7 +45,7 @@ from keras.optimizers import Adam
 img_width, img_height = 224, 224
 INIT_LR = 1e-3
 
-top_model_weights_path = 'bottleneck_fc_model1.h5'
+top_model_weights_path = 'bottleneck_fc_model test.h5'
 train_data_dir = 'data/Training Images'
 validation_data_dir = 'data/Training Images copy'
 # nb_train_samples = 33894
@@ -110,9 +110,11 @@ def train_top_model():
                             + [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]] * 110 + [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]] * 170)
     model = Sequential()
     model.add(Flatten(input_shape=train_data.shape[1:]))
-    model.add(Dense(4096, activation='relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(4096, activation='relu'))
+    # model.add(Dense(4096, activation='relu'))
+    # model.add(Dropout(0.5))
+    # model.add(Dense(4096, activation='relu'))
+    # model.add(Dropout(0.5))
+    model.add(Dense(512), activation = "relu")
     model.add(Dropout(0.5))
     model.add(Dense(18, activation='softmax'))
 
