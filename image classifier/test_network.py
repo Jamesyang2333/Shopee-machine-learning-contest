@@ -42,10 +42,12 @@ print(model.summary())
 # build a classifier model to put on top of the convolutional model
 top_model = Sequential()
 top_model.add(Flatten(input_shape=(7, 7, 512)))
-top_model.add(Dense(512, activation='relu'))
+top_model.add(Dense(4096, activation='relu'))
+top_model.add(Dropout(0.5))
+top_model.add(Dense(4096, activation='relu'))
 top_model.add(Dropout(0.5))
 top_model.add(Dense(18, activation='softmax'))
-top_model.load_weights("bottleneck_fc_model final.h5")
+top_model.load_weights("bottleneck_fc_model1.h5")
 
 model.add(top_model)
 
@@ -76,7 +78,7 @@ for imagepath in imagepaths:
 
 printlist = [[str(i + 1), str(answerlist[i])] for i in range(16111)]
 
-with open('result9.csv', 'w', newline='') as csvfile:
+with open('result10.csv', 'w', newline='') as csvfile:
     spamwriter = csv.writer(csvfile)
     spamwriter.writerow(["id", "category"])
     spamwriter.writerows(printlist)
