@@ -42,12 +42,12 @@ print(model.summary())
 # build a classifier model to put on top of the convolutional model
 top_model = Sequential()
 top_model.add(Flatten(input_shape=(7, 7, 512)))
-top_model.add(Dense(4096, activation='relu'))
-top_model.add(Dropout(0.5))
-top_model.add(Dense(4096, activation='relu'))
-top_model.add(Dropout(0.5))
+top_model.add(Dense(2048, activation='relu'))
+top_model.add(Dropout(0.6))
+top_model.add(Dense(2048, activation='relu'))
+top_model.add(Dropout(0.7))
 top_model.add(Dense(18, activation='softmax'))
-top_model.load_weights("bottleneck_fc_model1.h5")
+top_model.load_weights("bottleneck_fc_model2.h5")
 
 model.add(top_model)
 

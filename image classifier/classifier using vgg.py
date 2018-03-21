@@ -45,14 +45,14 @@ from keras.optimizers import Adam
 img_width, img_height = 224, 224
 INIT_LR = 1e-4
 
-top_model_weights_path = 'bottleneck_fc_model1.h5'
+top_model_weights_path = 'bottleneck_fc_model2.h5'
 train_data_dir = 'data/Training Images'
 validation_data_dir = 'data/Training Images copy'
 # nb_train_samples = 33894
 # nb_validation_samples = 4317
 nb_train_samples = 33888
 nb_validation_samples = 4288
-epochs = 50
+epochs = 25
 batch_size = 32
 
 
