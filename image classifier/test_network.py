@@ -43,11 +43,11 @@ print(model.summary())
 top_model = Sequential()
 top_model.add(Flatten(input_shape=(7, 7, 512)))
 top_model.add(Dense(2048, activation='relu'))
-top_model.add(Dropout(0.6))
-top_model.add(Dense(2048, activation='relu'))
 top_model.add(Dropout(0.7))
+top_model.add(Dense(2048, activation='relu'))
+top_model.add(Dropout(0.8))
 top_model.add(Dense(18, activation='softmax'))
-top_model.load_weights("bottleneck_fc_model2.h5")
+top_model.load_weights("bottleneck_fc_model3.h5")
 
 model.add(top_model)
 
@@ -78,7 +78,7 @@ for imagepath in imagepaths:
 
 printlist = [[str(i + 1), str(answerlist[i])] for i in range(16111)]
 
-with open('result11.csv', 'w', newline='') as csvfile:
+with open('result12.csv', 'w', newline='') as csvfile:
     spamwriter = csv.writer(csvfile)
     spamwriter.writerow(["id", "category"])
     spamwriter.writerows(printlist)

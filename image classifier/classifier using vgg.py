@@ -45,14 +45,14 @@ from keras.optimizers import Adam
 img_width, img_height = 224, 224
 INIT_LR = 1e-4
 
-top_model_weights_path = 'bottleneck_fc_model2.h5'
+top_model_weights_path = 'bottleneck_fc_model3.h5'
 train_data_dir = 'data/Training Images'
 validation_data_dir = 'data/Training Images copy'
 # nb_train_samples = 33894
 # nb_validation_samples = 4317
 nb_train_samples = 33888
 nb_validation_samples = 4288
-epochs = 25
+epochs = 30
 batch_size = 32
 
 
@@ -111,9 +111,9 @@ def train_top_model():
     model = Sequential()
     model.add(Flatten(input_shape=train_data.shape[1:]))
     model.add(Dense(2048, activation='relu'))
-    model.add(Dropout(0.6))
-    model.add(Dense(2048, activation='relu'))
     model.add(Dropout(0.7))
+    model.add(Dense(2048, activation='relu'))
+    model.add(Dropout(0.8))
     # model.add(Dense(512, activation = "relu"))
     # model.add(Dropout(0.5))
     model.add(Dense(18, activation='softmax'))
