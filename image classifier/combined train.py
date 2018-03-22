@@ -64,18 +64,18 @@ print('Model loaded.')
 # build a classifier model to put on top of the convolutional model
 top_model = Sequential()
 top_model.add(Flatten(input_shape=(7, 7, 512)))
-top_model.add(Dense(2048, activation='relu'))
-top_model.add(Dropout(0.6))
-top_model.add(Dense(2048, activation='relu'))
-top_model.add(Dropout(0.7))
+top_model.add(Dense(4096, activation='relu'))
+top_model.add(Dropout(0.5))
+top_model.add(Dense(4096, activation='relu'))
+top_model.add(Dropout(0.5))
 top_model.add(Dense(18, activation='softmax'))
-top_model.load_weights("bottleneck_fc_model2.h5")
+top_model.load_weights("bottleneck_fc_model.h5")
 
 model.add(top_model)
 
 # set the first 25 layers (up to the last conv block)
 # to non-trainable (weights will not be updated)
-for layer in model.layers[:25]:
+for layer in model.layers[:11]:
     layer.trainable = False
 
 # compile the model with a SGD/momentum optimizer
@@ -113,4 +113,4 @@ model.fit_generator(
     validation_data=validation_generator,
     nb_val_samples=nb_validation_samples)
 
-model.save("model1.model")
+model.save("model2.model")
