@@ -31,7 +31,7 @@ lists = ["BabyBibs", "BabyHat", "BabyPants", "BabyShirt", "PackageFart", "womans
 # orig = image.copy()
 print("[INFO] loading network...")
 
-model = load_model("model1.model")
+model = load_model("clothnew.model")
 
 answerlist = [0 for i in range(16111)]
 imagepaths = list(paths.list_images('Test'))
@@ -58,7 +58,7 @@ for imagepath in imagepaths:
 
 printlist = [[str(i + 1), str(answerlist[i])] for i in range(16111)]
 
-with open('result13.csv', 'w', newline='') as csvfile:
+with open('result14.csv', 'w', newline='') as csvfile:
     spamwriter = csv.writer(csvfile)
     spamwriter.writerow(["id", "category"])
     spamwriter.writerows(printlist)
