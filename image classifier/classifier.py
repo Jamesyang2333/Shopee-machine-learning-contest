@@ -43,7 +43,7 @@ from keras.layers import Activation, Dropout, Flatten, Dense
 from keras.optimizers import Adam
 from keras import backend as K
 
-INIT_LR = 1E-3
+INIT_LR = 1E-4
 # dimensions of our images.
 img_width, img_height = 160, 160
 
@@ -133,4 +133,4 @@ model.fit_generator(
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size)
 
-model.save('clothnew2.model')
+model.save('likevgg1.model')
