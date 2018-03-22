@@ -185,13 +185,19 @@ if __name__ == '__main__':
     validation_data_dir = 'data/Training Images copy'
     train_datagen = ImageDataGenerator(
         rescale=1. / 255,
+        featurewise_center=False,
+        featurewise_std_normalization=False,
         shear_range=0.2,
         zoom_range=0.2,
         horizontal_flip=True)
 
     # this is the augmentation configuration we will use for testing:
     # only rescaling
-    test_datagen = ImageDataGenerator(rescale=1. / 255)
+    test_datagen = ImageDataGenerator(
+        rescale=1. / 255,
+        featurewise_center=False,
+        featurewise_std_normalization=False
+    )
 
     train_generator = train_datagen.flow_from_directory(
         train_data_dir,
@@ -212,5 +218,5 @@ if __name__ == '__main__':
         validation_data=validation_generator,
         validation_steps=nb_validation_samples // batch_size)
 
-    model.save('clothnew1.model')
+    model.save('resnet1.model')
 
