@@ -42,7 +42,7 @@ for imagepath in imagepaths:
 	count = count + 1
 	number = int(imagepath.split('.')[0][10:])
 	image = cv2.imread(imagepath)
-	image = cv2.resize(image, (112, 112))
+	image = cv2.resize(image, (224, 224))
 	image = image.astype("float") / 255.0
 	image = img_to_array(image)
 	image = np.expand_dims(image, axis=0)
