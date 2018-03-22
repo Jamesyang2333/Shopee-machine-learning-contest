@@ -45,7 +45,7 @@ from keras import backend as K
 
 INIT_LR = 1E-3
 # dimensions of our images.
-img_width, img_height = 112, 112
+img_width, img_height = 32, 32
 
 train_data_dir = 'data/Training Images'
 validation_data_dir = 'data/Training Images copy'
@@ -65,21 +65,17 @@ model.add(Activation('relu'))
 model.add(Conv2D(32, (3, 3), padding="same", input_shape=input_shape))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), strides = (2, 2)))
+model.add(Dropout(0.2))
 
 model.add(Conv2D(64, (3, 3), padding="same"))
 model.add(Activation('relu'))
 model.add(Conv2D(64, (3, 3), padding="same"))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), strides = (2, 2)))
-
-model.add(Conv2D(128, (3, 3), padding="same"))
-model.add(Activation('relu'))
-model.add(Conv2D(128, (3, 3), padding="same"))
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2), strides = (2, 2)))
+model.add(Dropout(0.25))
 
 model.add(Flatten())
-model.add(Dense(1024))
+model.add(Dense(512))
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
 model.add(Dense(18))
@@ -120,4 +116,4 @@ model.fit_generator(
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size)
 
-model.save('cloth6.model')
+model.save('clothnew.model')
