@@ -172,8 +172,8 @@ if __name__ == '__main__':
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3
     num_classes = 18
-    batch_size = 16 
-    nb_epoch = 10
+    batch_size = 32
+    nb_epoch = 25
     nb_train_samples = 33894
     nb_validation_samples = 4317
 
@@ -212,5 +212,5 @@ if __name__ == '__main__':
         validation_data=validation_generator,
         validation_steps=nb_validation_samples // batch_size)
 
-    model.save('clothnew.model')
+    model.save('clothnew1.model')
 
