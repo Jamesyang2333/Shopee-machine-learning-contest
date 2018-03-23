@@ -102,7 +102,6 @@ opt = Adam(lr=INIT_LR, decay=INIT_LR / epochs)
 model.compile(loss="categorical_crossentropy", optimizer=opt,
 	metrics=["accuracy"])
 
-
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(
     rescale=1. / 255,
@@ -119,6 +118,7 @@ train_generator = train_datagen.flow_from_directory(
     target_size=(img_width, img_height),
     batch_size=batch_size,
     class_mode='categorical')
+
 print(train_generator.class_indices)
 validation_generator = test_datagen.flow_from_directory(
     validation_data_dir,
