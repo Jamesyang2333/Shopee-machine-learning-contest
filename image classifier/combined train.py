@@ -45,7 +45,7 @@ import vgg
 
 # path to the model weights files.
 weights_path = 'vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5'
-top_model_weights_path = 'bottleneck_fc_model.h5'
+top_model_weights_path = 'bottleneck_fc_model1.h5'
 # dimensions of our images.
 img_width, img_height = 224, 224
 
@@ -69,6 +69,7 @@ top_model.add(Dropout(0.6))
 top_model.add(Dense(4096, activation='relu'))
 top_model.add(Dropout(0.8))
 top_model.add(Dense(18, activation='softmax'))
+top_model.load_weights(top_model_weights_path)
 
 model.add(top_model)
 
