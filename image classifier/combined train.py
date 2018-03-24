@@ -65,9 +65,9 @@ print('Model loaded.')
 top_model = Sequential()
 top_model.add(Flatten(input_shape=(7, 7, 512)))
 top_model.add(Dense(4096, activation='relu'))
-top_model.add(Dropout(0.5))
+top_model.add(Dropout(0.6))
 top_model.add(Dense(4096, activation='relu'))
-top_model.add(Dropout(0.5))
+top_model.add(Dropout(0.7))
 top_model.add(Dense(18, activation='softmax'))
 top_model.load_weights(top_model_weights_path)
 
@@ -81,17 +81,15 @@ for layer in model.layers[:11]:
 # compile the model with a SGD/momentum optimizer
 # and a very slow learning rate.
 model.compile(loss='categorical_crossentropy',
-              optimizer=optimizers.SGD(lr=1e-4, momentum=0.9),
+              optimizer=optimizers.SGD(lr=1e-3, momentum=0.9),
               metrics=['accuracy'])
 
 # prepare data augmentation configuration
 train_datagen = ImageDataGenerator(
     rescale=1. / 255,
     shear_range=0.2,
-    rotation_range=90,
+    rotation_range=30,
     zoom_range=0.2,
-    width_shift_range=0.1,
-    height_shift_range=0.1,
     horizontal_flip=True)
 
 test_datagen = ImageDataGenerator(rescale=1. / 255)
@@ -116,4 +114,4 @@ model.fit_generator(
     validation_data=validation_generator,
     nb_val_samples=nb_validation_samples)
 
-model.save("vgg1.model")
+model.save("vgg2.model")
