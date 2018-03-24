@@ -55,7 +55,7 @@ model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'])
 # initialize the number of epochs to train for, initia learning rate,
 # and batch size
-EPOCHS = 25
+EPOCHS = 30
 BS = 32
 lists = ["BabyBibs", "BabyHat", "BabyPants", "BabyShirt", "PackageFart", "womanshirtsleeve", "womencasualshoes", "womenchiffontop", "womendollshoes", "womenknittedtop", "womenlazyshoes", "womenlongsleevetop", "womenpeashoes", "womenplussizedtop", "womenpointedflatshoes", "womensleevelesstop", "womenstripedtop", "wrapsnslings"]
 
