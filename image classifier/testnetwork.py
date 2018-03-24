@@ -31,7 +31,7 @@ lists = ["BabyBibs", "BabyHat", "BabyPants", "BabyShirt", "PackageFart", "womans
 # orig = image.copy()
 print("[INFO] loading network...")
 
-model = load_model("vgg1.model")
+model = load_model("inception.model")
 
 answerlist = [0 for i in range(16111)]
 imagepaths = list(paths.list_images('Test'))
@@ -42,7 +42,7 @@ for imagepath in imagepaths:
 	count = count + 1
 	number = int(imagepath.split('.')[0][10:])
 	image = cv2.imread(imagepath)
-	image = cv2.resize(image, (224, 224))
+	image = cv2.resize(image, (299, 299))
 	image = image.astype("float") / 255.0
 	image = img_to_array(image)
 	image = np.expand_dims(image, axis=0)
@@ -58,7 +58,7 @@ for imagepath in imagepaths:
 
 printlist = [[str(i + 1), str(answerlist[i])] for i in range(16111)]
 
-with open('result18.csv', 'w', newline='') as csvfile:
+with open('result19.csv', 'w', newline='') as csvfile:
     spamwriter = csv.writer(csvfile)
     spamwriter.writerow(["id", "category"])
     spamwriter.writerows(printlist)
