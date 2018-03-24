@@ -39,7 +39,7 @@ top_model.add(Dropout(0.6))
 top_model.add(Dense(4096, activation='relu'))
 top_model.add(Dropout(0.7))
 top_model.add(Dense(18, activation='softmax'))
-top_model.load_weights(top_model_weights_path)
+#top_model.load_weights(top_model_weights_path)
 
 model.add(top_model)
 
@@ -66,28 +66,28 @@ data = []
 labels = []
 
 # grab the image paths and randomly shuffle them
-imagePaths = list(paths.list_images("data/Training Images"))
+imagePaths = list(paths.list_images("data/Training-Images"))
 random.seed(42)
 random.shuffle(imagePaths)
 
 # loop over the input images
+print(imagePaths[:10])
 for imagePath in imagePaths:
-	# load the image, pre-process it, and store it in the data list
-	image = cv2.imread(imagePath)
-	image = cv2.resize(image, (224, 224))
-	image = img_to_array(image)
-	data.append(image)
-
-	# extract the class label from the image path and update the
-	# labels list
-	label = imagePath.split(os.path.sep)[-2]
-	label = lists.index(label)
-	labels.append(label)
+    # load the image, pre-process it, and store it in the data list
+    image = cv2.imread(imagePath)
+    image = cv2.resize(image, (224, 224))
+    image = img_to_array(image)
+    data.append(image)
+    # extract the class label from the image path and update the
+    # labels list
+    label = imagePath.split(os.path.sep)[-2]
+    label = lists.index(label)
+    labels.append(label)
 
 # scale the raw pixel intensities to the range [0, 1]
 data = np.array(data, dtype="float") / 255.0
 labels = np.array(labels)
-
+print(np.shape(data))
 # partition the data into training and testing splits using 75% of
 # the data for training and the remaining 25% for testing
 (trainX, testX, trainY, testY) = train_test_split(data,
@@ -96,7 +96,7 @@ labels = np.array(labels)
 # convert the labels from integers to vectors
 trainY = to_categorical(trainY, num_classes=18)
 testY = to_categorical(testY, num_classes=18)
-
+print(np.shape(trainX))
 # construct the image generator for data augmentation
 aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,
 	height_shift_range=0.1, shear_range=0.2, zoom_range=0.2,
